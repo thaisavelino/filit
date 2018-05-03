@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/02 20:32:29 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/03 18:40:17 by tavelino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		main(int ac, char **av)
 	{
 		test = parse_input(av[1]);
 		if (test == NULL)
-			ft_putstr("Error\n");
+			ft_putstr("error\n");
 		else
 			ft_putstr("Success\n");
 	}
