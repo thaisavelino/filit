@@ -6,17 +6,20 @@ DIR		=	rendu
 
 SRC		= main.c \
 	parsing.c \
-	tools.c
+	tools.c \
+	testing.c
 
-OBJ		=	$(SRC:.c=.o)
+HEADER	= fillit.h
 
-CFLAGS	=	-Wall -Wextra -Werror -I ./libft
+OBJ		= $(SRC:.c=.o)
+
+CFLAGS	=	-Wall -Wextra -Werror
 
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJ)
-			@make -C libft
-			$(CC) -o $(NAME) $(OBJ) -L libft -lft
+			make -C libft
+			$(CC) -o $(NAME) $(OBJ) -I $(HEADER) -L libft -lft
 
 clean	:
 			@make clean -C libft

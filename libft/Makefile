@@ -86,7 +86,7 @@ $(NAME)	:	$(OBJ)
 
 clean	:
 			@echo "Cleaning the [96mlibft[0m files"
-			rm -f $(OBJ)
+			@rm -f $(OBJ)
 			@echo "[92mDone[0m"
 
 fclean	:	clean
