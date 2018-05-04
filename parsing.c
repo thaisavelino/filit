@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/04 20:48:54 by tavelino         ###   ########.fr       */
+/*   Updated: 2018/05/04 20:53:22 by tavelino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,4 +127,22 @@ int		get_input(int fd, char buff[BUFF_SIZE])
 	bytes = read(fd, &(*buff), BUFF_SIZE - 1);
 	buff[bytes] = '\0';
 	return (bytes);
+}
+
+int	ft_count_touch(char *buff, int i)
+{
+	int	touch;
+
+	touch = 0;
+	if (i <= 13 && buff[i + 5] == '#')
+		touch++;
+	if (i >= 5 && buff[i - 5] == '#')
+		touch++;
+	if (i >= 1 && buff[i - 1] == '#')
+		touch++;
+	if (i <= 18 && buff[i + 1] == '#')
+		touch++;
+	if (!(touch == 1 || touch == 2 || touch == 3))
+		return (-1);
+	return (touch);
 }
