@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/04 21:11:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 01:40:38 by bpopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,18 @@ t_tetri		*parse_input(char *file)
 	int			tetri_count;
 	t_tetri		*list;
 	t_tetri		*tetri;
+	int			bytes;
 
 	tetri_count = 0;
+	bytes = 21;
 	if ((fd = open(file, O_RDONLY)) <= 0)
 		return (NULL);
 	list = NULL;
 	ft_bzero(buff, BUFF_SIZE);
-	while (get_input(fd, buff))
+	while ((bytes = get_input(fd, buff, bytes)))
 	{
+		if (bytes < 0)
+			return (NULL);
 		ts_print_tetri_map(buff);
 		if (tetri_count >= 27)
 			return (NULL);
@@ -64,14 +68,6 @@ t_tetri		*get_tetri(char buff[BUFF_SIZE], int tetri_count, int fd)
 			{
 				if (buff[i] != '\n')
 					return (NULL);
-			}
-			else
-			{
-				if (read(fd, buff, 1))
-				{
-					if (buff[0] != '\n')
-						return (NULL);
-				}
 			}
 		}
 		else if ((buff[i] && buff[i] != '.' && buff[i] != '#'))
@@ -133,16 +129,25 @@ void	set_coord(int *coord, int blocks, int pos)
 /*
 **
 */
-int		get_input(int fd, char buff[BUFF_SIZE])
+int		get_input(int fd, char buff[BUFF_SIZE], int prev_bytes)
 {
 	int		bytes;
+	char	tmp;
 
 	bytes = read(fd, &(*buff), BUFF_SIZE - 1);
+	if (bytes == 0 && prev_bytes == 21)
+		return (-1);
+	if (read(fd, &tmp, 1))
+	{
+		if (tmp != '\n')
+			return (-1);
+		bytes++;
+	}
 	buff[bytes] = '\0';
 	return (bytes);
 }
 
-int	ft_count_touch(char *buff, int i)
+int		ft_count_touch(char *buff, int i)
 {
 	int	touch;
 
