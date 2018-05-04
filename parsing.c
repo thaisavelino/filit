@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/04 20:53:22 by tavelino         ###   ########.fr       */
+/*   Updated: 2018/05/04 21:11:09 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_tetri		*parse_input(char *file)
 		ts_print_tetri_map(buff);
 		if (tetri_count >= 27)
 			return (NULL);
-		if (!(tetri = get_tetri(buff, tetri_count++)))
+		if (!(tetri = get_tetri(buff, tetri_count++, fd)))
 			return (NULL);
 		tetri_push(&list, tetri);
 		ft_bzero(buff, BUFF_SIZE);
@@ -42,13 +42,15 @@ t_tetri		*parse_input(char *file)
 	return (list);
 }
 
-t_tetri		*get_tetri(char buff[BUFF_SIZE], int tetri_count)
+t_tetri		*get_tetri(char buff[BUFF_SIZE], int tetri_count, int fd)
 {
 	t_tetri	*tetri;
 	int		coord[8];
 	int		blocks;
 	int		contact;
 	int		i;
+
+	(void)fd;
 
 	contact = 0;
 	i = 0;
@@ -58,8 +60,19 @@ t_tetri		*get_tetri(char buff[BUFF_SIZE], int tetri_count)
 	{
 		if (((i && (i + 1) % 5 == 0) || i == 20))
 		{
-			if (buff[i] != '\n')
-				return (NULL);
+			if (i != 20)
+			{
+				if (buff[i] != '\n')
+					return (NULL);
+			}
+			else
+			{
+				if (read(fd, buff, 1))
+				{
+					if (buff[0] != '\n')
+						return (NULL);
+				}
+			}
 		}
 		else if ((buff[i] && buff[i] != '.' && buff[i] != '#'))
 		{

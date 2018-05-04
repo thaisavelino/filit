@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/04 20:50:17 by tavelino         ###   ########.fr       */
+/*   Updated: 2018/05/04 21:06:51 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "libft/libft.h"
 
-#define BUFF_SIZE 22
+#define BUFF_SIZE 21
 
 typedef struct	s_tetri
 {
@@ -29,7 +29,7 @@ typedef struct	s_tetri
 */
 t_tetri	*parse_input(char *file);
 int		get_input(int fd, char buff[BUFF_SIZE]);
-t_tetri	*get_tetri(char buff[BUFF_SIZE], int tetri_count);
+t_tetri	*get_tetri(char buff[BUFF_SIZE], int tetri_count, int fd);
 int		*trim_offset(int *coord);
 void	set_coord(int *coord, int blocks, int pos);
 int		ft_count_touch(char *buff, int i);
