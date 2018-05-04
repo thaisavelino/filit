@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/04 20:35:05 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/04 20:50:17 by tavelino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		get_input(int fd, char buff[BUFF_SIZE]);
 t_tetri	*get_tetri(char buff[BUFF_SIZE], int tetri_count);
 int		*trim_offset(int *coord);
 void	set_coord(int *coord, int blocks, int pos);
+int		ft_count_touch(char *buff, int i);
 /*
 ** TOOLS
 */

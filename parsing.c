@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/04 20:41:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/04 20:48:54 by tavelino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,13 @@ t_tetri		*parse_input(char *file)
 
 t_tetri		*get_tetri(char buff[BUFF_SIZE], int tetri_count)
 {
-	int		i;
-	int		blocks;
-	int		coord[8];
 	t_tetri	*tetri;
+	int		coord[8];
+	int		blocks;
+	int		contact;
+	int		i;
 
+	contact = 0;
 	i = 0;
 	blocks = 0;
 	tetri = NULL;
@@ -65,11 +67,12 @@ t_tetri		*get_tetri(char buff[BUFF_SIZE], int tetri_count)
 		}
 		if (buff[i] == '#')
 		{
+			contact += ft_count_touch(buff, i);
 			set_coord(coord, blocks++, i);
 		}
 		i++;
 	}
-	if (blocks != 4)
+	if (blocks != 4 || (contact != 6 && contact != 8))
 		return (NULL);
 	trim_offset(coord);
 	tetri = new_tetri(coord, 'A' + tetri_count);
