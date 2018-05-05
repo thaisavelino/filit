@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 18:13:27 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 20:44:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_tetri	*new_tetri(int *coord)
 	{
 		if (!(new->coord = ft_memalloc(sizeof(*coord) * 8)))
 			return (NULL);
+		reset_tetri_position(coord);
 		new->coord = ft_memcpy(new->coord, coord, sizeof(*coord) * 8);
 	}
 	new->name = 0;
