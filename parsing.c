@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 20:36:58 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 20:41:58 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@
 */
 int			set_list_if_valid_input(char *file, t_tetri **list)
 {
-	char		buffer[BUFF_SIZE];
-	int			fd;
-	int			tetri_nbr;
 	t_tetri		*tetri;
+	char		buffer[BUFF_SIZE];
+	int			count_tetri;
 	int			read_size;
+	int			fd;
 
-	tetri_nbr = 0;
+	count_tetri = 0;
 	read_size = 0;
 	if ((fd = open(file, O_RDONLY)) > 0)
 	{
 		while ((read_size = read_file_to_buffer(fd, buffer, read_size)))
 		{
-			if ((tetri = get_tetri_if_valid(buffer)) && tetri_nbr < 26)
+			if ((tetri = get_tetri_if_valid(buffer)) && count_tetri < 26)
 			{
-				tetri->name = 'A' + tetri_nbr++;
+				tetri->name = 'A' + count_tetri++;
 				tetri_push(list, tetri);
 			}
 			else
@@ -53,12 +53,12 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 	t_tetri	*tetri;
 	int		i;
 	int		count_junctions;
-	int		blocks_nbr;
+	int		count_blocks;
 	int		coord[8];
 
 	i = 0;
 	count_junctions = 0;
-	blocks_nbr = 0;
+	count_blocks = 0;
 	tetri = NULL;
 	while (buffer[i])
 	{
@@ -67,10 +67,10 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 		else if ((i + 1) % 5 == 0 && buffer[i] != '\n')
 			return (NULL);
 		else if (buffer[i] == '#')
-			count_junctions += get_block(buffer, coord, blocks_nbr++, i);
+			count_junctions += get_block(buffer, coord, count_blocks++, i);
 		i++;
 	}
-	if (blocks_nbr == 4 && (count_junctions == 6 || count_junctions == 8))
+	if (count_blocks == 4 && (count_junctions == 6 || count_junctions == 8))
 	{
 		reset_tetri_position(coord);
 		return (new_tetri(coord));
@@ -83,21 +83,21 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 */
 int		get_block(char *buffer, int *coord, int blocks, int pos)
 {
-	int		junctions;
+	int		count_junctions;
 
 
-	junctions = 0;
+	count_junctions = 0;
 	coord[blocks * 2] = pos / 5;
 	coord[(blocks * 2) + 1] = pos % 5;
 	if (pos <= 13 && buffer[pos + 5] == '#')
-		junctions++;
+		count_junctions++;
 	if (pos >= 5 && buffer[pos - 5] == '#')
-		junctions++;
+		count_junctions++;
 	if (pos >= 1 && buffer[pos - 1] == '#')
-		junctions++;
+		count_junctions++;
 	if (pos <= 18 && buffer[pos + 1] == '#')
-		junctions++;
-	return (junctions);
+		count_junctions++;
+	return (count_junctions);
 }
 
 /*
