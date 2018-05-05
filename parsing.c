@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 17:42:25 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 18:06:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ int			set_list_if_valid_input(char *file, t_tetri **list)
 	read_size = 0;
 	if ((fd = open(file, O_RDONLY)) > 0)
 	{
-		while ((read_size = get_input(fd, buffer, read_size)))
+		while ((read_size = read_file_to_buffer(fd, buffer, read_size)))
 		{
-			if ((tetri = get_tetri(buffer, tetri_nbr++)) && tetri_nbr < 27)
+			if ((tetri = get_tetri_if_valid(buffer)) && tetri_nbr < 26)
+			{
+				tetri->name = 'A' + tetri_nbr++;
 				tetri_push(list, tetri);
+			}
 			else
 				return (-1);
 		}
@@ -45,7 +48,7 @@ int			set_list_if_valid_input(char *file, t_tetri **list)
 	return (1);
 }
 
-t_tetri		*get_tetri(char buffer[BUFF_SIZE], int tetri_count)
+t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 {
 	t_tetri	*tetri;
 	int		coord[8];
@@ -73,7 +76,7 @@ t_tetri		*get_tetri(char buffer[BUFF_SIZE], int tetri_count)
 	if (blocks != 4 || (contact != 6 && contact != 8))
 		return (NULL);
 	trim_offset(coord);
-	if (!(tetri = new_tetri(coord, 'A' + tetri_count)))
+	if (!(tetri = new_tetri(coord)))
 		return (NULL);
 	return (tetri);
 }
@@ -135,7 +138,7 @@ int		get_block(char *buffer, int *coord, int blocks, int pos)
 /*
 **
 */
-int		get_input(int fd, char buffer[BUFF_SIZE], int prev_bytes)
+int		read_file_to_buffer(int fd, char buffer[BUFF_SIZE], int prev_bytes)
 {
 	int		bytes;
 	char	tmp;
