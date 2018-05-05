@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 18:13:32 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 20:36:58 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,34 +51,31 @@ int			set_list_if_valid_input(char *file, t_tetri **list)
 t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 {
 	t_tetri	*tetri;
-	int		coord[8];
-	int		blocks;
-	int		contact;
 	int		i;
+	int		count_junctions;
+	int		blocks_nbr;
+	int		coord[8];
 
-	contact = 0;
 	i = 0;
-	blocks = 0;
+	count_junctions = 0;
+	blocks_nbr = 0;
 	tetri = NULL;
-	while (i < 21)
+	while (buffer[i])
 	{
-		if (((i && (i + 1) % 5 == 0)))
-		{
-			if (buffer[i] != '\n')
-				return (NULL);
-		}
-		else if ((buffer[i] && buffer[i] != '.' && buffer[i] != '#'))
+		if (buffer[i] != '.' && buffer[i] != '#' && buffer[i] != '\n')
 			return (NULL);
-		if (buffer[i] == '#')
-			contact += get_block(buffer, coord, blocks++, i);
+		else if ((i + 1) % 5 == 0 && buffer[i] != '\n')
+			return (NULL);
+		else if (buffer[i] == '#')
+			count_junctions += get_block(buffer, coord, blocks_nbr++, i);
 		i++;
 	}
-	if (blocks != 4 || (contact != 6 && contact != 8))
-		return (NULL);
-	reset_tetri_position(coord);
-	if (!(tetri = new_tetri(coord)))
-		return (NULL);
-	return (tetri);
+	if (blocks_nbr == 4 && (count_junctions == 6 || count_junctions == 8))
+	{
+		reset_tetri_position(coord);
+		return (new_tetri(coord));
+	}
+	return (NULL);
 }
 
 /*
