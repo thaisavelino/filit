@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 18:00:50 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 18:13:27 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,36 @@ void	tetri_del(t_tetri **alst)
 		lst = ptr;
 	}
 	*alst = NULL;
+}
+
+/*
+** Reset tetri position to zero by finding lowest x and y coordinates
+*/
+int		*reset_tetri_position(int *coord)
+{
+	int i;
+	int x;
+	int y;
+
+	i = 0;
+	x = 3;
+	y = 3;
+	while (i < 8)
+	{
+		if (coord[i] < x)
+			x = coord[i];
+		if (coord[i + 1] < y)
+			y = coord[i + 1];
+		i += 2;
+	}
+	i = 0;
+	while (i < 8)
+	{
+		if (x > 0)
+			coord[i] -= x;
+		if (y > 0)
+			coord[i + 1] -= y;
+		i += 2;
+	}
+	return (coord);
 }

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 18:06:35 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 18:13:32 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,42 +75,10 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 	}
 	if (blocks != 4 || (contact != 6 && contact != 8))
 		return (NULL);
-	trim_offset(coord);
+	reset_tetri_position(coord);
 	if (!(tetri = new_tetri(coord)))
 		return (NULL);
 	return (tetri);
-}
-
-/*
-** Find lowest x and y coordinates, substract every x and y coordinates from it
-*/
-int		*trim_offset(int *coord)
-{
-	int i;
-	int x;
-	int y;
-
-	i = 0;
-	x = 3;
-	y = 3;
-	while (i < 8)
-	{
-		if (coord[i] < x)
-			x = coord[i];
-		if (coord[i + 1] < y)
-			y = coord[i + 1];
-		i += 2;
-	}
-	i = 0;
-	while (i < 8)
-	{
-		if (x > 0)
-			coord[i] -= x;
-		if (y > 0)
-			coord[i + 1] -= y;
-		i += 2;
-	}
-	return (coord);
 }
 
 /*
