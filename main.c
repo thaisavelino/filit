@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/03 18:40:17 by tavelino         ###   ########.fr       */
+/*   Updated: 2018/05/05 02:47:07 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int		main(int ac, char **av)
 	test = NULL;
 	if (ac == 2)
 	{
-		test = parse_input(av[1]);
-		if (test == NULL)
+		if (parse_input(av[1], &test) == 1)
 			ft_putstr("error\n");
 		else
 			ft_putstr("Success\n");
@@ -30,9 +29,9 @@ int		main(int ac, char **av)
 	t_tetri *ptr = test;
 	while (ptr != NULL)
 	{
-		ft_putchar(ptr->name);
+		//ft_putchar(ptr->name);
 		ptr = ptr->next;
-		ft_putchar('\n');
+		//ft_putchar('\n');
 		i++;
 	}
 	tetri_del(&test);

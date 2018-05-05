@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 01:37:18 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 02:26:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ typedef struct	s_tetri
 /*
 ** PARSING
 */
-t_tetri	*parse_input(char *file);
+int		parse_input(char *file, t_tetri **list);
 int		get_input(int fd, char buff[BUFF_SIZE], int prev_bytes);
-t_tetri	*get_tetri(char buff[BUFF_SIZE], int tetri_count, int fd);
+t_tetri	*get_tetri(char buff[BUFF_SIZE], int tetri_count);
 int		*trim_offset(int *coord);
-void	set_coord(int *coord, int blocks, int pos);
-int		ft_count_touch(char *buff, int i);
+int		get_block(char *buff, int *coord, int blocks, int pos);
 /*
 ** TOOLS
 */
