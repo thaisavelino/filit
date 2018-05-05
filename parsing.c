@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 03:10:18 by bpopov           ###   ########.fr       */
+/*   Updated: 2018/05/05 16:17:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-int			parse_input(char *file, t_tetri **list)
+/*
+** Stock tetris coordinates in list from file if file is correctly formatted
+** Return 1 in case of error
+*/
+int			get_list_if_file_is_valid(char *file, t_tetri **list)
 {
-	char		buff[BUFF_SIZE];
+	char		buffer[BUFF_SIZE];
 	int			fd;
 	int			tetri_count;
 	t_tetri		*tetri;
@@ -27,10 +31,10 @@ int			parse_input(char *file, t_tetri **list)
 	bytes = 1;
 	if ((fd = open(file, O_RDONLY)) <= 0)
 		return (1);
-	while ((bytes = get_input(fd, buff, bytes)) && tetri_count <= 26)
+	while ((bytes = get_input(fd, buffer, bytes)) && tetri_count <= 26)
 	{
-		ts_print_tetri_map(buff);
-		if (!(tetri = get_tetri(buff, tetri_count++)))
+		ts_print_tetri_map(buffer);
+		if (!(tetri = get_tetri(buffer, tetri_count++)))
 			return (1);
 		tetri_push(list, tetri);
 	}
@@ -38,7 +42,7 @@ int			parse_input(char *file, t_tetri **list)
 	return (bytes < 0 || tetri_count > 26 ? 1 : 0);
 }
 
-t_tetri		*get_tetri(char buff[BUFF_SIZE], int tetri_count)
+t_tetri		*get_tetri(char buffer[BUFF_SIZE], int tetri_count)
 {
 	t_tetri	*tetri;
 	int		coord[8];
@@ -54,13 +58,13 @@ t_tetri		*get_tetri(char buff[BUFF_SIZE], int tetri_count)
 	{
 		if (((i && (i + 1) % 5 == 0)))
 		{
-			if (buff[i] != '\n')
+			if (buffer[i] != '\n')
 				return (NULL);
 		}
-		else if ((buff[i] && buff[i] != '.' && buff[i] != '#'))
+		else if ((buffer[i] && buffer[i] != '.' && buffer[i] != '#'))
 			return (NULL);
-		if (buff[i] == '#')
-			contact += get_block(buff, coord, blocks++, i);
+		if (buffer[i] == '#')
+			contact += get_block(buffer, coord, blocks++, i);
 		i++;
 	}
 	if (blocks != 4 || (contact != 6 && contact != 8))
@@ -106,7 +110,7 @@ int		*trim_offset(int *coord)
 /*
 ** Set current block's coordinates and return it's number of junctions
 */
-int		get_block(char *buff, int *coord, int blocks, int pos)
+int		get_block(char *buffer, int *coord, int blocks, int pos)
 {
 	int		junctions;
 
@@ -114,13 +118,13 @@ int		get_block(char *buff, int *coord, int blocks, int pos)
 	junctions = 0;
 	coord[blocks * 2] = pos / 5;
 	coord[(blocks * 2) + 1] = pos % 5;
-	if (pos <= 13 && buff[pos + 5] == '#')
+	if (pos <= 13 && buffer[pos + 5] == '#')
 		junctions++;
-	if (pos >= 5 && buff[pos - 5] == '#')
+	if (pos >= 5 && buffer[pos - 5] == '#')
 		junctions++;
-	if (pos >= 1 && buff[pos - 1] == '#')
+	if (pos >= 1 && buffer[pos - 1] == '#')
 		junctions++;
-	if (pos <= 18 && buff[pos + 1] == '#')
+	if (pos <= 18 && buffer[pos + 1] == '#')
 		junctions++;
 	return (junctions);
 }
@@ -128,13 +132,13 @@ int		get_block(char *buff, int *coord, int blocks, int pos)
 /*
 **
 */
-int		get_input(int fd, char buff[BUFF_SIZE], int prev_bytes)
+int		get_input(int fd, char buffer[BUFF_SIZE], int prev_bytes)
 {
 	int		bytes;
 	char	tmp;
 
-	ft_bzero(buff, BUFF_SIZE);
-	bytes = read(fd, &(*buff), BUFF_SIZE - 1);
+	ft_bzero(buffer, BUFF_SIZE);
+	bytes = read(fd, &(*buffer), BUFF_SIZE - 1);
 	if (bytes == 0 && prev_bytes == 21)
 		return (-1);
 	if (read(fd, &tmp, 1))
@@ -143,6 +147,6 @@ int		get_input(int fd, char buff[BUFF_SIZE], int prev_bytes)
 			return (-1);
 		bytes++;
 	}
-	buff[bytes] = '\0';
+	buffer[bytes] = '\0';
 	return (bytes);
 }
