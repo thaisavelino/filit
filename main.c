@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 16:45:15 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 17:42:18 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		main(int ac, char **av)
 	test = NULL;
 	if (ac == 2)
 	{
-		if (get_list_if_file_is_valid(av[1], &test) <= 0)
+		if (set_list_if_valid_input(av[1], &test) <= 0)
 			ft_putstr("error\n");
 		else
 			ft_putstr("Success\n");

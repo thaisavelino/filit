@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 16:51:05 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 17:42:25 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #include <fcntl.h>
 
 /*
-** Stock tetris coordinates in list from file if file is correctly formatted
-** If successful, returns a non_negative integer
+** Stock each tetris coordinates in list from file
+** Returns a negative value if an error is encountered
 */
-int			get_list_if_file_is_valid(char *file, t_tetri **list)
+int			set_list_if_valid_input(char *file, t_tetri **list)
 {
 	char		buffer[BUFF_SIZE];
 	int			fd;
