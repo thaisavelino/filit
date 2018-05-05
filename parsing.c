@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 16:17:04 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/05 16:51:05 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,32 @@
 
 /*
 ** Stock tetris coordinates in list from file if file is correctly formatted
-** Return 1 in case of error
+** If successful, returns a non_negative integer
 */
 int			get_list_if_file_is_valid(char *file, t_tetri **list)
 {
 	char		buffer[BUFF_SIZE];
 	int			fd;
-	int			tetri_count;
+	int			tetri_nbr;
 	t_tetri		*tetri;
-	int			bytes;
+	int			read_size;
 
-	tetri_count = 0;
-	bytes = 1;
-	if ((fd = open(file, O_RDONLY)) <= 0)
-		return (1);
-	while ((bytes = get_input(fd, buffer, bytes)) && tetri_count <= 26)
+	tetri_nbr = 0;
+	read_size = 0;
+	if ((fd = open(file, O_RDONLY)) > 0)
 	{
-		ts_print_tetri_map(buffer);
-		if (!(tetri = get_tetri(buffer, tetri_count++)))
-			return (1);
-		tetri_push(list, tetri);
+		while ((read_size = get_input(fd, buffer, read_size)))
+		{
+			if ((tetri = get_tetri(buffer, tetri_nbr++)) && tetri_nbr < 27)
+				tetri_push(list, tetri);
+			else
+				return (-1);
+		}
+		close(fd);
 	}
-	close(fd);
-	return (bytes < 0 || tetri_count > 26 ? 1 : 0);
+	if (fd < 0 || read_size < 0)
+		return (-1);
+	return (1);
 }
 
 t_tetri		*get_tetri(char buffer[BUFF_SIZE], int tetri_count)
