@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 20:44:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/08 02:18:29 by bpopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,12 @@ int			set_list_if_valid_input(char *file, t_tetri **list)
 	return (1);
 }
 
+/*
+** Returns a newly created tetri containing it's blocks coordinates
+** Returns NULL if an error is encountered
+*/
 t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 {
-	t_tetri	*tetri;
 	int		i;
 	int		count_junctions;
 	int		count_blocks;
@@ -59,7 +62,6 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 	i = 0;
 	count_junctions = 0;
 	count_blocks = 0;
-	tetri = NULL;
 	while (buffer[i])
 	{
 		if (buffer[i] != '.' && buffer[i] != '#' && buffer[i] != '\n')
@@ -67,7 +69,11 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 		else if ((i + 1) % 5 == 0 && buffer[i] != '\n')
 			return (NULL);
 		else if (buffer[i] == '#')
-			count_junctions += get_block(buffer, coord, count_blocks++, i);
+		{
+			coord[count_blocks * 2] = i / 5;
+			coord[(count_blocks++ * 2) + 1] = i % 5;
+			count_junctions += get_junctions(buffer, i);
+		}
 		i++;
 	}
 	if (count_blocks == 4 && (count_junctions == 6 || count_junctions == 8))
@@ -76,16 +82,14 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 }
 
 /*
-** Set current block's coordinates and return it's number of junctions
+** Returns the number of junctions for a given block
 */
-int		get_block(char *buffer, int *coord, int blocks, int pos)
+int		get_junctions(char *buffer, int pos)
 {
 	int		count_junctions;
 
 
 	count_junctions = 0;
-	coord[blocks * 2] = pos / 5;
-	coord[(blocks * 2) + 1] = pos % 5;
 	if (pos <= 13 && buffer[pos + 5] == '#')
 		count_junctions++;
 	if (pos >= 5 && buffer[pos - 5] == '#')
@@ -98,7 +102,8 @@ int		get_block(char *buffer, int *coord, int blocks, int pos)
 }
 
 /*
-**
+** Read next tetri from file to buffer
+** Returns number of bytes read or a negative value in case of error
 */
 int		read_file_to_buffer(int fd, char buffer[BUFF_SIZE], int prev_bytes)
 {
