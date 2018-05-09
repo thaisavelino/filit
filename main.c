@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/09 19:34:29 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/09 23:35:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		main(int ac, char **av)
 				map_size++;
 			while (!solver(begin, ptr, map_size))
 			{
-				ft_putstr("NOT OK\n");
 				map_size++;
 			}
 		}
@@ -45,6 +44,7 @@ int		main(int ac, char **av)
 		ptr = ptr->next;
 		ft_putchar('\n');
 	}
+	print_result(begin, map_size);
 	tetri_del(&begin);
 	//else
 	//	PRINT_USAGE
@@ -62,6 +62,7 @@ int		solver(t_tetri *begin, t_tetri *ptr, int map_size)
 			{
 				if (try_next(begin, ptr, map_size) <= 0)
 					return (0);
+				return (solver(begin, ptr->next, map_size));
 			}
 			else
 				return (1);
@@ -88,25 +89,22 @@ int		conflict(t_tetri *begin, t_tetri *current, int map_size)
 	(void)map_size;
 	if (begin == current)
 		return (0);
-	else
+	while (ptr != current)
 	{
-		while (ptr != current)
+		while (i < 8)
 		{
-			while (i < 8)
+			while (j < 8)
 			{
-				while (j < 8)
-				{
-					if (ptr->coord[j] == current->coord[i] && ptr->coord[j + 1] == current->coord[i + 1])
-						return (1);
-					j += 2;
-				}
-				j = 0;
-				i += 2;
+				if (ptr->coord[j] == current->coord[i] && ptr->coord[j + 1] == current->coord[i + 1])
+					return (1);
+				j += 2;
 			}
-			ptr = ptr->next;
-			i = 0;
 			j = 0;
+			i += 2;
 		}
+		ptr = ptr->next;
+		i = 0;
+		j = 0;
 	}
 	return (0);
 }
@@ -140,6 +138,9 @@ int		try_next(t_tetri *begin, t_tetri *current, int map_size)
 		current->length++;
 		return (1);
 	}
+	current->coord = reset_tetri_position(current->coord);
+	current->height = get_tetri_height(current);
+	current->length = get_tetri_len(current);
 	return (-1);
 }
 
@@ -194,4 +195,51 @@ int		get_tetri_height(t_tetri *tetri)
 		i += 2;
 	}
 	return (tmp + 1);
+}
+
+void	print_result(t_tetri *list, int map_size)
+{
+	int i;
+	int j;
+	t_tetri *ptr;
+	char print;
+
+	i = 0;
+	j = 0;
+	ptr = list;
+	print = 0;
+	while (i < map_size)
+	{
+		while (j < map_size)
+		{
+			print = find_block_at_coord(list, i, j);
+			if (print == 0)
+				ft_putchar('.');
+			else
+				ft_putchar(print);
+			j++;
+		}
+		ft_putchar('\n');
+		i++;
+		j = 0;
+	}
+}
+
+char	find_block_at_coord(t_tetri *list, int x, int y)
+{
+	int i;
+
+	i = 0;
+	while (list != NULL)
+	{
+		while (i < 8)
+		{
+			if (list->coord[i] == x && list->coord[i + 1] == y)
+				return (list->name);
+			i += 2;
+		}
+		i = 0;
+		list = list->next;
+	}
+	return (0);
 }
