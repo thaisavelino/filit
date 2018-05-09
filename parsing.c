@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 20:44:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/07 20:25:55 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 		else if ((i + 1) % 5 == 0 && buffer[i] != '\n')
 			return (NULL);
 		else if (buffer[i] == '#')
-			count_junctions += get_block(buffer, coord, count_blocks++, i);
+			count_junctions += set_coord_get_junctions(buffer, coord, count_blocks++, i);
 		i++;
 	}
 	if (count_blocks == 4 && (count_junctions == 6 || count_junctions == 8))
@@ -76,9 +76,9 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 }
 
 /*
-** Set current block's coordinates and return it's number of junctions
+** Set current block's original coordinates and return it's number of junctions
 */
-int		get_block(char *buffer, int *coord, int blocks, int pos)
+int		set_coord_get_junctions(char *buffer, int *coord, int blocks, int pos)
 {
 	int		count_junctions;
 
