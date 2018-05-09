@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/05 20:44:01 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/09 17:16:52 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	tetri_push(t_tetri **alist, t_tetri *list)
 		*alist = list;
 	else
 	{
+		ft_putstr("fuck\n");
 		ptr = *alist;
 		while (ptr->next != NULL)
 			ptr = ptr->next;
@@ -46,7 +47,31 @@ t_tetri	*new_tetri(int *coord)
 		new->coord = ft_memcpy(new->coord, coord, sizeof(*coord) * 8);
 	}
 	new->name = 0;
+	new->height = 0;
+	new->length = 0;
+	set_tetri_size(new);
 	return (new);
+}
+
+void	set_tetri_size(t_tetri *tetri)
+{
+	int i;
+
+	i = 0;
+	while (i < 8)
+	{
+		if (tetri->coord[i] > tetri->height)
+		{
+			tetri->height = tetri->coord[i];
+		}
+		if (tetri->coord[i + 1] > tetri->length)
+		{
+			tetri->length = tetri->coord[i + 1];
+		}
+		i += 2;
+	}
+	tetri->height++;
+	tetri->length++;
 }
 
 void	tetri_del(t_tetri **alst)
