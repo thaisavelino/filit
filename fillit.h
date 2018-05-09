@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/09 17:16:27 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/09 18:38:40 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,6 @@ int		solver(t_tetri *begin, t_tetri *ptr, int map_size);
 int		conflict(t_tetri *begin, t_tetri *current, int map_size);
 int		try_next(t_tetri *begin, t_tetri *current, int map_size);
 void	reset_y_pos(t_tetri *tetri);
+int		get_tetri_len(t_tetri *tetri);
+int		get_tetri_height(t_tetri *tetri);
 #endif

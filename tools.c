@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/09 17:16:52 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/09 18:02:46 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	tetri_push(t_tetri **alist, t_tetri *list)
 		*alist = list;
 	else
 	{
-		ft_putstr("fuck\n");
 		ptr = *alist;
 		while (ptr->next != NULL)
 			ptr = ptr->next;

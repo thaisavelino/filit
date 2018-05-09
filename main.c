@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/09 17:12:43 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/09 19:34:29 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,37 @@
 
 int		main(int ac, char **av)
 {
-	t_tetri *test;
+	t_tetri *begin;
+	t_tetri *ptr;
 	int		map_size;
 
-	test = NULL;
+	begin = NULL;
 	map_size = 2;
+	ptr = NULL;
 	if (ac == 2)
 	{
-		if (set_list_if_valid_input(av[1], &test) <= 0)
+		if (set_list_if_valid_input(av[1], &begin) <= 0)
 			ft_putstr("error\n");
 		else
+		{
+			ptr = begin;
 			ft_putstr("Success\n");
+			while (get_tetri_height(begin) > map_size || get_tetri_len(begin) > map_size)
+				map_size++;
+			while (!solver(begin, ptr, map_size))
+			{
+				ft_putstr("NOT OK\n");
+				map_size++;
+			}
+		}
 	}
-	while (try_next(test, test, 4) != -1)
-		ts_print_tetri(test, 4);
-	tetri_del(&test);
+	while (ptr != NULL)
+	{
+		ts_print_tetri(ptr, map_size);
+		ptr = ptr->next;
+		ft_putchar('\n');
+	}
+	tetri_del(&begin);
 	//else
 	//	PRINT_USAGE
 	//ft_strdel(&tmp);
@@ -43,13 +59,19 @@ int		solver(t_tetri *begin, t_tetri *ptr, int map_size)
 		if (!conflict(begin, ptr, map_size))
 		{
 			if (solver(begin, ptr->next, map_size) == 0)
-				try_next(begin, ptr, map_size);
+			{
+				if (try_next(begin, ptr, map_size) <= 0)
+					return (0);
+			}
+			else
+				return (1);
 		}
-		else if (try_next(begin, ptr, map_size))
+		else
 		{
-			solver(begin, ptr, map_size);
+			if (try_next(begin, ptr, map_size) <= 0)
+				return (0);
+			return(solver(begin, ptr, map_size));
 		}
-		return (0);
 	}
 	return (1);
 }
@@ -63,13 +85,7 @@ int		conflict(t_tetri *begin, t_tetri *current, int map_size)
 	ptr = begin;
 	i = 0;
 	j = 0;
-	while (i < 8)
-	{
-		if (current->coord[i] == map_size)
-			return (1);
-		i++;
-	}
-	i = 0;
+	(void)map_size;
 	if (begin == current)
 		return (0);
 	else
@@ -146,4 +162,36 @@ void	reset_y_pos(t_tetri *tetri)
 		tetri->coord[i] -= tmp;
 		i += 2;
 	}
+}
+
+int		get_tetri_len(t_tetri *tetri)
+{
+	int i;
+	int tmp;
+
+	i = 0;
+	tmp = tetri->coord[i + 1];
+	while (i < 8)
+	{
+		if (tetri->coord[i + 1] > tmp)
+			tmp = tetri->coord[i + 1];
+		i += 2;
+	}
+	return (tmp + 1);
+}
+
+int		get_tetri_height(t_tetri *tetri)
+{
+	int i;
+	int tmp;
+
+	i = 0;
+	tmp = tetri->coord[i];
+	while (i < 8)
+	{
+		if (tetri->coord[i] > tmp)
+			tmp = tetri->coord[i];
+		i += 2;
+	}
+	return (tmp + 1);
 }
