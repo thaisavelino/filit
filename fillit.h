@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/09 22:33:11 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/10 16:11:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef struct	s_tetri
 	int *coord;
 	int height;
 	int length;
+	int smallest_x;
+	int smallest_y;
 	char name;
 	struct	s_tetri *next;
 }				t_tetri;
@@ -47,7 +49,12 @@ void	set_tetri_size(t_tetri *tetri);
 void	ts_print_tetri_map(char *buff);
 void	ts_print_tetri(t_tetri *tetri, int map_size);
 /*
-** ALGO
+** ALGO TOOLS
+*/
+void	get_next_x_position(t_tetri *tetri);
+void	get_next_y_position(t_tetri *tetri);
+/*
+** MAIN
 */
 int		solver(t_tetri *begin, t_tetri *ptr, int map_size);
 int		conflict(t_tetri *begin, t_tetri *current, int map_size);
