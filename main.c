@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/10 16:51:51 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/10 21:17:52 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int		main(int ac, char **av)
 			}
 		}
 	}
-	while (ptr != NULL)
+	/*while (ptr != NULL)
 	{
 		ts_print_tetri(ptr, map_size);
 		ptr = ptr->next;
 		ft_putchar('\n');
-	}
+	}*/
 	print_result(begin, map_size);
 	tetri_del(&begin);
 	//else
@@ -70,7 +70,7 @@ int		solver(t_tetri *begin, t_tetri *ptr, int map_size)
 			{
 				if (try_next(begin, ptr, map_size) <= 0)
 					return (0);
-				return (solver(begin, ptr, map_size));
+				//return (solver(begin, ptr, map_size));
 			}
 			else
 				return (1);
@@ -79,8 +79,9 @@ int		solver(t_tetri *begin, t_tetri *ptr, int map_size)
 		{
 			if (try_next(begin, ptr, map_size) <= 0)
 				return (0);
-			return(solver(begin, ptr, map_size));
+			//return(solver(begin, ptr, map_size));
 		}
+		return(solver(begin, ptr, map_size));
 	}
 	return (1);
 }
@@ -97,7 +98,7 @@ int		conflict(t_tetri *begin, t_tetri *current, int map_size)
 	while (begin != current)
 	{
 		i = 0;
-		if (begin->length - 1 >= current->smallest_y || begin->height - 1 >= current->smallest_x)
+		if ((begin->height > current->smallest_x && begin->smallest_x <= current->height) || (begin->length > current->smallest_y && begin->smallest_y <= current->length))
 		{
 		while (i < 8)
 		{
@@ -174,10 +175,13 @@ int		get_tetri_len(t_tetri *tetri)
 
 	i = 0;
 	tmp = tetri->coord[i + 1];
+	tetri->smallest_y = tmp;
 	while (i < 8)
 	{
 		if (tetri->coord[i + 1] > tmp)
 			tmp = tetri->coord[i + 1];
+		if (tetri->smallest_y > tetri->coord[i + 1])
+			tetri->smallest_y = tetri->coord[i + 1];
 		i += 2;
 	}
 	return (tmp + 1);
@@ -190,10 +194,13 @@ int		get_tetri_height(t_tetri *tetri)
 
 	i = 0;
 	tmp = tetri->coord[i];
+	tetri->height = tmp;
 	while (i < 8)
 	{
 		if (tetri->coord[i] > tmp)
 			tmp = tetri->coord[i];
+		if (tetri->smallest_x > tetri->coord[i])
+			tetri->smallest_x = tetri->coord[i];
 		i += 2;
 	}
 	return (tmp + 1);

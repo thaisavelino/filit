@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 17:14:50 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/10 02:09:38 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/10 20:27:28 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ void	ts_print_tetri(t_tetri *tetri, int map_size)
 	ft_putnbr(tetri->height);
 	ft_putchar(' ');
 	ft_putnbr(tetri->length);
+	ft_putchar('\n');
+	ft_putnbr(tetri->smallest_x);
+	ft_putchar(' ');
+	ft_putnbr(tetri->smallest_y);
 	ft_putchar('\n');
 	while (i < map_size)
 	{
