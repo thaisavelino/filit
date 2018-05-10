@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/09 18:02:46 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/10 03:36:41 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ int		*reset_tetri_position(int *coord)
 	int y;
 
 	i = 0;
-	x = 3;
-	y = 3;
+	x = coord[i];
+	y = coord[i + 1];
 	while (i < 8)
 	{
 		if (coord[i] < x)
