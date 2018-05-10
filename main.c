@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/10 21:17:52 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/10 22:36:45 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int		main(int ac, char **av)
 	int		map_size;
 
 	begin = NULL;
-	map_size = 2;
 	ptr = NULL;
+	map_size = 2;
 	if (ac == 2)
 	{
 		if (set_list_if_valid_input(av[1], &begin) <= 0)
@@ -29,12 +29,9 @@ int		main(int ac, char **av)
 		else
 		{
 			ptr = begin;
-			while (begin->height > map_size || begin->length > map_size)
-				map_size++;
 			while (!solver(begin, ptr, map_size))
 			{
 				map_size++;
-				ptr = begin;
 				while (ptr != NULL)
 				{
 					reset_tetri_position(ptr->coord);
@@ -44,19 +41,12 @@ int		main(int ac, char **av)
 				}
 				ptr = begin;
 			}
+			print_result(begin, map_size);
 		}
 	}
-	/*while (ptr != NULL)
-	{
-		ts_print_tetri(ptr, map_size);
-		ptr = ptr->next;
-		ft_putchar('\n');
-	}*/
-	print_result(begin, map_size);
 	tetri_del(&begin);
 	//else
 	//	PRINT_USAGE
-	//ft_strdel(&tmp);
 	return (0);
 }
 
@@ -70,7 +60,6 @@ int		solver(t_tetri *begin, t_tetri *ptr, int map_size)
 			{
 				if (try_next(begin, ptr, map_size) <= 0)
 					return (0);
-				//return (solver(begin, ptr, map_size));
 			}
 			else
 				return (1);
@@ -79,7 +68,6 @@ int		solver(t_tetri *begin, t_tetri *ptr, int map_size)
 		{
 			if (try_next(begin, ptr, map_size) <= 0)
 				return (0);
-			//return(solver(begin, ptr, map_size));
 		}
 		return(solver(begin, ptr, map_size));
 	}
@@ -91,15 +79,11 @@ int		conflict(t_tetri *begin, t_tetri *current, int map_size)
 	int i;
 	int j;
 
-	if (begin == current)
-		return (0);
 	if (current->length > map_size || current->height > map_size)
 		return (1);
 	while (begin != current)
 	{
 		i = 0;
-		if ((begin->height > current->smallest_x && begin->smallest_x <= current->height) || (begin->length > current->smallest_y && begin->smallest_y <= current->length))
-		{
 		while (i < 8)
 		{
 			j = 0;
@@ -113,7 +97,6 @@ int		conflict(t_tetri *begin, t_tetri *current, int map_size)
 				j += 2;
 			}
 			i += 2;
-		}
 		}
 		begin = begin->next;
 	}
@@ -149,20 +132,10 @@ int		try_next(t_tetri *begin, t_tetri *current, int map_size)
 void	reset_y_pos(t_tetri *tetri)
 {
 	int i;
-	//int tmp;
 
 	i = 1;
-	/*tmp = tetri->coord[1];
 	while (i < 8)
 	{
-		if (tetri->coord[i] < tmp)
-			tmp = tetri->coord[i];
-		i += 2;
-	}*/
-	i = 1;
-	while (i < 8)
-	{
-		//tetri->coord[i] -= tmp;
 		tetri->coord[i] -= tetri->smallest_y;
 		i += 2;
 	}

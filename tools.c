@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/10 15:41:39 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/10 22:26:03 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_tetri	*new_tetri(int *coord)
 		reset_tetri_position(coord);
 		new->coord = ft_memcpy(new->coord, coord, sizeof(*coord) * 8);
 	}
+	new->smallest_y = 0;
+	new->smallest_x = 0;
 	new->name = 0;
 	new->height = 0;
 	new->length = 0;
