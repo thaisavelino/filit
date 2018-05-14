@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/10 22:36:45 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/14 21:03:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ int		main(int ac, char **av)
 	t_tetri *begin;
 	t_tetri *ptr;
 	int		map_size;
+	char	*map;
 
 	begin = NULL;
 	ptr = NULL;
 	map_size = 2;
+	map = create_map(map_size);
 	if (ac == 2)
 	{
 		if (set_list_if_valid_input(av[1], &begin) <= 0)
@@ -29,81 +31,118 @@ int		main(int ac, char **av)
 		else
 		{
 			ptr = begin;
-			while (!solver(begin, ptr, map_size))
+			while (!solver(begin, ptr, map_size, map, 0))
 			{
+				free(map);
 				map_size++;
-				while (ptr != NULL)
-				{
-					reset_tetri_position(ptr->coord);
-					ptr->height = get_tetri_height(ptr);
-					ptr->length = get_tetri_len(ptr);
-					ptr = ptr->next;
-				}
+				map = create_map(map_size);
 				ptr = begin;
 			}
-			print_result(begin, map_size);
+			//print_result(begin, map_size);
+			ft_putstr(map);
 		}
 	}
+	//ft_putstr(map);
+	//ft_putnbr(map_size);
+	free(map);
 	tetri_del(&begin);
 	//else
 	//	PRINT_USAGE
 	return (0);
 }
 
-int		solver(t_tetri *begin, t_tetri *ptr, int map_size)
+int		solver(t_tetri *begin, t_tetri *ptr, int map_size, char *map, int i)
 {
 	if (ptr != NULL)
 	{
-		if (!conflict(begin, ptr, map_size))
+		/*if (!conflict(ptr, map_size, map, i))
 		{
-			if (solver(begin, ptr->next, map_size) == 0)
+					//ft_putstr(map);
+					//ft_putchar('\n');
+			if (solver(begin, ptr->next, map_size, map, 0) == 0)
 			{
-				if (try_next(begin, ptr, map_size) <= 0)
+				clean_tetri(ptr, map);
+				if (i < ((map_size + 1) * map_size))
+				{
+					return (solver(begin, ptr, map_size, map, i + 1));
+				}
+				else
+				{
+					i = 0;
 					return (0);
+				}
 			}
-			else
-				return (1);
+		}
+		else if (i < ((map_size + 1) * map_size))
+		{
+			//i = 0;
+			return (solver(begin, ptr, map_size, map, i + 1));
 		}
 		else
 		{
-			if (try_next(begin, ptr, map_size) <= 0)
-				return (0);
+			i = 0;
+			return (0);
+		}*/
+		while (i < ((map_size + 1) * map_size) && conflict(ptr, map_size, map, i))
+		{
+			i++;
 		}
-		return(solver(begin, ptr, map_size));
+		if (i >= ((map_size + 1) * map_size)/* && conflict(ptr, map_size, map, i)*/)
+		{
+			clean_tetri(ptr, map);
+			i = 0;
+			return (0);
+		}
+		while (solver(begin, ptr->next, map_size, map, 0) == 0)
+		{
+			clean_tetri(ptr, map);
+			return (solver(begin, ptr, map_size, map, i + 1));
+		}
 	}
 	return (1);
 }
 
-int		conflict(t_tetri *begin, t_tetri *current, int map_size)
+void	clean_tetri(t_tetri *tetri, char *map)
 {
 	int i;
-	int j;
 
-	if (current->length > map_size || current->height > map_size)
-		return (1);
-	while (begin != current)
+	i = 0;
+	while (map[i])
 	{
-		i = 0;
-		while (i < 8)
-		{
-			j = 0;
-			while (j < 8)
-			{
-				if (begin->coord[j] == current->coord[i])
-				{
-					if (begin->coord[j + 1] == current->coord[i + 1])
-						return (1);
-				}
-				j += 2;
-			}
-			i += 2;
-		}
-		begin = begin->next;
+		if (map[i] == tetri->name)
+			map[i] = '.';
+		i++;
 	}
+}
+
+int		conflict(t_tetri *tetri, int map_size, char *map, int pos)
+{
+	int i;
+
+	i = 0;
+	//if (map[pos] != '.') // Optimizing issue
+	//	return (1);
+	while (i < 8)
+	{
+		if ((pos + tetri->coord[i + 1] + (tetri->coord[i] * (map_size + 1))) > (map_size + 1) * map_size)
+			return (1);
+		if (map[pos + tetri->coord[i + 1] + (tetri->coord[i] * (map_size + 1))] != '.')
+			return (1);
+		i += 2;
+	}
+	put_tetri(tetri, map_size, map, pos);
 	return (0);
 }
 
-int		try_next(t_tetri *begin, t_tetri *current, int map_size)
+void	put_tetri(t_tetri *tetri, int map_size, char *map, int pos)
+{
+	map[pos + tetri->coord[1] + (tetri->coord[0] * (map_size + 1))] = tetri->name;
+	map[pos + tetri->coord[3] + (tetri->coord[2] * (map_size + 1))] = tetri->name;
+	map[pos + tetri->coord[5] + (tetri->coord[4] * (map_size + 1))] = tetri->name;
+	map[pos + tetri->coord[7] + (tetri->coord[6] * (map_size + 1))] = tetri->name;
+}
+
+/*int		try_next(t_tetri *begin, t_tetri *current, int map_size)
 {
 	int i;
 
@@ -127,7 +166,7 @@ int		try_next(t_tetri *begin, t_tetri *current, int map_size)
 	current->height = get_tetri_height(current);
 	current->length = get_tetri_len(current);
 	return (-1);
-}
+}*/
 
 void	reset_y_pos(t_tetri *tetri)
 {
