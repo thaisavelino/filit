@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/14 18:01:24 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/15 18:01:30 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,13 @@ int		*reset_tetri_position(int *coord)
 	return (coord);
 }
 
-char	*create_map(int size)
+char	*create_map(char *map, int size)
 {
-	char *map;
 	int i;
 
 	i = 1;
+	if (map != NULL)
+		free(map);
 	if (!(map = ft_strnew(((size + 1) * (size)) + 1)))
 		return (NULL);
 	while (i < ((size + 1) * (size)) + 1)

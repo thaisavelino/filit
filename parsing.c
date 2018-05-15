@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/14 17:17:42 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/15 18:10:52 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int			set_list_if_valid_input(char *file, t_tetri **list)
 	}
 	if (fd < 0 || read_size < 0)
 		return (-1);
-	return (1);
+	return (count_tetri);
 }
 
 /*

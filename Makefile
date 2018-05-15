@@ -7,7 +7,6 @@ DIR		=	rendu
 SRC		= main.c \
 	parsing.c \
 	tools.c \
-	algo_tools.c \
 	testing.c
 
 HEADER	= fillit.h
