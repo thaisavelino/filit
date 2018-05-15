@@ -14,13 +14,14 @@ HEADER	= fillit.h
 OBJ		= $(SRC:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Werror
+
 LDFLAGS = -L libft -lft
 
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJ)
-			make -C libft
-			$(CC) -o $(NAME) $(OBJ) -I $(HEADER) -L libft -lft
+			@make -C libft
+			$(CC) -o $(NAME) $(OBJ) -L libft -lft
 
 %.o		:	%.c fillit.h
 			${CC} ${CFLAGS} -I ${HEADER} -c -o $@ $<

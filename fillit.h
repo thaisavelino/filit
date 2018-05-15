@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/15 18:21:31 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/15 20:59:16 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@
 typedef struct	s_tetri
 {
 	int *coord;
-	int height;
-	int length;
-	int smallest_x;
-	int smallest_y;
 	int pos;
 	char name;
 	struct	s_tetri *next;

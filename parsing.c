@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/15 18:10:52 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/15 21:27:18 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ int			set_list_if_valid_input(char *file, t_tetri **list)
 				tetri_push(list, tetri);
 			}
 			else
+			{
+				if (count_tetri < 26)
+					free(tetri);
 				return (-1);
+			}
 		}
 		close(fd);
 	}
@@ -87,7 +91,6 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 int		get_junctions(char *buffer, int pos)
 {
 	int		count_junctions;
-
 
 	count_junctions = 0;
 	if (pos <= 13 && buffer[pos + 5] == '#')

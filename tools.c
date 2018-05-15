@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/15 18:01:30 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/15 21:30:03 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,34 +45,8 @@ t_tetri	*new_tetri(int *coord)
 		reset_tetri_position(coord);
 		new->coord = ft_memcpy(new->coord, coord, sizeof(*coord) * 8);
 	}
-	new->smallest_y = 0;
-	new->smallest_x = 0;
 	new->name = 0;
-	new->height = 0;
-	new->length = 0;
-	set_tetri_size(new);
 	return (new);
-}
-
-void	set_tetri_size(t_tetri *tetri)
-{
-	int i;
-
-	i = 0;
-	while (i < 8)
-	{
-		if (tetri->coord[i] > tetri->height)
-		{
-			tetri->height = tetri->coord[i];
-		}
-		if (tetri->coord[i + 1] > tetri->length)
-		{
-			tetri->length = tetri->coord[i + 1];
-		}
-		i += 2;
-	}
-	tetri->height++;
-	tetri->length++;
 }
 
 void	tetri_del(t_tetri **alst)
@@ -129,7 +103,7 @@ char	*create_map(char *map, int size)
 
 	i = 1;
 	if (map != NULL)
-		free(map);
+		ft_strdel(&map);
 	if (!(map = ft_strnew(((size + 1) * (size)) + 1)))
 		return (NULL);
 	while (i < ((size + 1) * (size)) + 1)

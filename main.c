@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/15 18:50:04 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/15 21:25:37 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,21 @@ int		main(int ac, char **av)
 		else
 		{
 			map_len = get_min_map(tetri_nbr);
-			map = create_map(map, map_len);
-			while (!solver(list, map_len++, map, 0))
-				map = create_map(map, map_len);
-			ft_putstr(map);
-			free(map);
-			tetri_del(&list);
+			if (!(map = create_map(map, map_len)) || 1)
+			{
+				while (!solver(list, map_len++, map, 0))
+				{
+					if (!(map = create_map(map, map_len)))
+						break;
+				}
+				if (map)
+				{
+					ft_putstr(map);
+					ft_strdel(&map);
+				}
+			}
 		}
+		tetri_del(&list);
 	}
 	//else
 	//	PRINT_USAGE
