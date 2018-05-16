@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 17:17:10 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 19:13:34 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ typedef struct	s_tetri
 /*
 ** PARSING
 */
-int		set_list_if_valid_input(char *file, t_tetri **list);
-t_tetri	*get_tetri_if_valid(char buff[BUFF_SIZE]);
+int		set_list(char *file, t_tetri **list);
+t_tetri	*get_tetri(char buff[BUFF_SIZE], int tetri_nbr);
 int		read_file_to_buffer(int fd, char buff[BUFF_SIZE], int prev_bytes);
 int		get_junctions(char *buff, int pos);
 /*
 ** TOOLS
 */
 void	tetri_push(t_tetri **alist, t_tetri *list);
-t_tetri	*new_tetri(int *coord);
+t_tetri	*new_tetri(int *coord, int tetri_nbr);
 void	tetri_del(t_tetri **alst);
 int		*reset_tetri_position(int *coord);
 void	set_tetri_size(t_tetri *tetri);

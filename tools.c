@@ -6,14 +6,14 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 13:45:04 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 19:29:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include <stdlib.h>
 
-void	tetri_push(t_tetri **alist, t_tetri *list)
+void		tetri_push(t_tetri **alist, t_tetri *list)
 {
 	t_tetri	*ptr;
 
@@ -28,9 +28,9 @@ void	tetri_push(t_tetri **alist, t_tetri *list)
 	}
 }
 
-t_tetri	*new_tetri(int *coord)
+t_tetri		*new_tetri(int *coord, int tetri_nbr)
 {
-	t_tetri *new;
+	t_tetri	*new;
 
 	if (!(new = (t_tetri*)malloc(sizeof(*new))))
 		return (NULL);
@@ -44,14 +44,14 @@ t_tetri	*new_tetri(int *coord)
 		reset_tetri_position(coord);
 		new->coord = ft_memcpy(new->coord, coord, sizeof(*coord) * 8);
 	}
-	new->name = 0;
+	new->name = 'A' + tetri_nbr;
 	return (new);
 }
 
-void	tetri_del(t_tetri **alst)
+void		tetri_del(t_tetri **alst)
 {
-	t_tetri *lst;
-	t_tetri *ptr;
+	t_tetri	*lst;
+	t_tetri	*ptr;
 
 	lst = *alst;
 	while (lst)
@@ -67,11 +67,11 @@ void	tetri_del(t_tetri **alst)
 /*
 ** Reset tetri position to zero by finding lowest x and y coordinates
 */
-int		*reset_tetri_position(int *coord)
+int			*reset_tetri_position(int *coord)
 {
-	int i;
-	int x;
-	int y;
+	int		i;
+	int		x;
+	int		y;
 
 	i = 0;
 	x = coord[i];
@@ -96,9 +96,9 @@ int		*reset_tetri_position(int *coord)
 	return (coord);
 }
 
-char	*create_map(char *map, int size)
+char		*create_map(char *map, int size)
 {
-	int i;
+	int		i;
 
 	i = 1;
 	if (map != NULL)

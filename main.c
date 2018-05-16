@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 18:52:26 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 19:13:40 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		main(int ac, char **av)
 	tetri_nbr = 0;
 	if (ac == 2)
 	{
-		if ((tetri_nbr = set_list_if_valid_input(av[1], &list)))
+		if ((tetri_nbr = set_list(av[1], &list)))
 		{
 			if (!(solve_tetri(list, map, tetri_nbr)))
 				ft_putstr("error\n");
