@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 19:13:40 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 20:22:55 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		main(int ac, char **av)
 /*
 ** Find minimal map size for given tetri list
 */
+
 int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 {
 	int map_len;
@@ -67,6 +68,7 @@ int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 ** Returns 1 if a solution has been found for the current map size
 ** Returns 0 otherwise
 */
+
 int		backtrack(t_tetri *ptr, char *map, int map_len, int i)
 {
 	if (ptr != NULL)
@@ -98,6 +100,7 @@ int		backtrack(t_tetri *ptr, char *map, int map_len, int i)
 ** Determine wether the given position is valid for the current tetri
 ** Returns 1 in case of conflict, 0 otherwise
 */
+
 int		conflict(t_tetri *tetri, char *map, int map_len, int pos)
 {
 	int i;
@@ -119,6 +122,7 @@ int		conflict(t_tetri *tetri, char *map, int map_len, int pos)
 ** Write tetri at given position in map if it's not already set
 ** Erase it otherwise
 */
+
 void	put_tetri(t_tetri *tetri, char *map, int map_len, int pos)
 {
 	int		i;

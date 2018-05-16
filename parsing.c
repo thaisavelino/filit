@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 19:28:35 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 20:23:11 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 ** Stock each tetri coordinates in list from file
 ** Returns the number of tetri read if no error was encountered, 0 otherwise
 */
+
 int			set_list(char *file, t_tetri **list)
 {
 	t_tetri	*tetri;
@@ -52,6 +53,7 @@ int			set_list(char *file, t_tetri **list)
 ** Returns a newly created tetri containing it's blocks coordinates
 ** Returns NULL if an error is encountered
 */
+
 t_tetri		*get_tetri(char buffer[BUFF_SIZE], int tetri_nbr)
 {
 	int		i;
@@ -84,6 +86,7 @@ t_tetri		*get_tetri(char buffer[BUFF_SIZE], int tetri_nbr)
 /*
 ** Returns the number of junctions for a given block
 */
+
 int			get_junctions(char *buffer, int pos)
 {
 	int		count_junctions;
@@ -104,6 +107,7 @@ int			get_junctions(char *buffer, int pos)
 ** Read next tetri from file to buffer
 ** Returns number of bytes read or a negative value in case of error
 */
+
 int			read_file_to_buffer(int fd, char buffer[BUFF_SIZE], int prev_bytes)
 {
 	int		bytes;

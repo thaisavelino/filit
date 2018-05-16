@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 19:36:47 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 20:22:27 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /*
 ** Push a given tetri to the end of the list
 */
+
 void		tetri_push(t_tetri **alist, t_tetri *list)
 {
 	t_tetri	*ptr;
@@ -34,6 +35,7 @@ void		tetri_push(t_tetri **alist, t_tetri *list)
 /*
 ** Returns a newly allocated tetri and set it's name according to it's number
 */
+
 t_tetri		*new_tetri(int *coord, int tetri_nbr)
 {
 	t_tetri	*new;
@@ -57,6 +59,7 @@ t_tetri		*new_tetri(int *coord, int tetri_nbr)
 /*
 ** Free the whole list of tetri and it's contents
 */
+
 void		tetri_del(t_tetri **alst)
 {
 	t_tetri	*lst;
@@ -77,6 +80,7 @@ void		tetri_del(t_tetri **alst)
 ** Set tetri coordinates in relation to it's first block
 ** Rather than the map it was read from
 */
+
 int			*reset_tetri_position(int *coord)
 {
 	int		i;
@@ -109,6 +113,7 @@ int			*reset_tetri_position(int *coord)
 /*
 ** Allocate/Reallocate and fill map for a given size
 */
+
 char		*create_map(char *map, int size)
 {
 	int		i;
