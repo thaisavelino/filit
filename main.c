@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 14:05:24 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 18:52:26 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int		main(int ac, char **av)
 	return (0);
 }
 
+/*
+** Find minimal map size for given tetri list
+*/
 int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 {
 	int map_len;
@@ -46,10 +49,10 @@ int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 		map_len++;
 	if ((map = create_map(map, map_len)))
 	{
-		while (!solver(list, map_len++, map, 0))
+		while (!backtrack(list, map, map_len++, 0))
 		{
 			if (!(map = create_map(map, map_len)))
-				break;
+				break ;
 		}
 	}
 	if (!map)
@@ -59,7 +62,12 @@ int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 	return (1);
 }
 
-int		solver(t_tetri *ptr, int map_len, char *map, int i)
+/*
+** Recursively try every possible combinations of tetris
+** Returns 1 if a solution has been found for the current map size
+** Returns 0 otherwise
+*/
+int		backtrack(t_tetri *ptr, char *map, int map_len, int i)
 {
 	if (ptr != NULL)
 	{
@@ -67,8 +75,8 @@ int		solver(t_tetri *ptr, int map_len, char *map, int i)
 		{
 			if (map[i + ptr->coord[1]] == '.')
 			{
-				if (!conflict(ptr, map_len, map, i))
-					break;
+				if (!conflict(ptr, map, map_len, i))
+					break ;
 			}
 			i++;
 		}
@@ -77,16 +85,20 @@ int		solver(t_tetri *ptr, int map_len, char *map, int i)
 			i = 0;
 			return (0);
 		}
-		while (solver(ptr->next, map_len, map, 0) == 0)
+		while (backtrack(ptr->next, map, map_len, 0) == 0)
 		{
-			put_tetri(ptr, map_len, map, i);
-			return (solver(ptr, map_len, map, i + 1));
+			put_tetri(ptr, map, map_len, i);
+			return (backtrack(ptr, map, map_len, i + 1));
 		}
 	}
 	return (1);
 }
 
-int		conflict(t_tetri *tetri, int map_len, char *map, int pos)
+/*
+** Determine wether the given position is valid for the current tetri
+** Returns 1 in case of conflict, 0 otherwise
+*/
+int		conflict(t_tetri *tetri, char *map, int map_len, int pos)
 {
 	int i;
 	int *coord;
@@ -99,11 +111,15 @@ int		conflict(t_tetri *tetri, int map_len, char *map, int pos)
 			return (1);
 		i += 2;
 	}
-	put_tetri(tetri, map_len, map, pos);
+	put_tetri(tetri, map, map_len, pos);
 	return (0);
 }
 
-void	put_tetri(t_tetri *tetri, int map_len, char *map, int pos)
+/*
+** Write tetri at given position in map if it's not already set
+** Erase it otherwise
+*/
+void	put_tetri(t_tetri *tetri, char *map, int map_len, int pos)
 {
 	int		i;
 	int		*coord;
