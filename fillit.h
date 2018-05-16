@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 19:38:23 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 22:40:12 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@
 #include "libft/libft.h"
 
 #define BUFF_SIZE 21
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
 
 typedef struct	s_tetri
 {
@@ -52,5 +60,7 @@ char	*create_map(char *map, int size);
 */
 void	ts_print_tetri_map(char *buff);
 void	ts_print_tetri(t_tetri *tetri, int map_len);
+void	print_tetri_color(char *map, t_tetri *tetri, int size, int pos, char *color);
+void	print_solution(char *map);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 20:22:55 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 22:40:37 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 	}
 	if (!map)
 		return (0);
-	ft_putstr(map);
+	//ft_putstr(map);//////////////////////////////////////////////////////////
+	print_solution(map);///////////////////////////////////////////////////////
 	ft_strdel(&map);
 	return (1);
 }
@@ -71,6 +72,7 @@ int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 
 int		backtrack(t_tetri *ptr, char *map, int map_len, int i)
 {
+	ft_putstr("\033[2J");//////////////////////////////////////////////////////
 	if (ptr != NULL)
 	{
 		while (i < ((map_len + 1) * map_len))
@@ -78,7 +80,11 @@ int		backtrack(t_tetri *ptr, char *map, int map_len, int i)
 			if (map[i + ptr->coord[1]] == '.')
 			{
 				if (!conflict(ptr, map, map_len, i))
+				{
+					print_tetri_color(map, ptr, map_len, i, KGRN);/////////////
 					break ;
+				}
+					print_tetri_color(map, ptr, map_len, i, KRED);/////////////
 			}
 			i++;
 		}

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 17:14:50 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/15 21:00:33 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 22:42:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,57 @@ void	ts_print_tetri(t_tetri *tetri, int map_size)
 		ft_putchar('\n');
 		i += 2;
 	}
+}
+
+
+void	print_tetri_color(char *map, t_tetri *tetri, int size, int pos, char *color)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	tmp = ft_strdup(map);
+	while (i < 8)
+	{
+		if (map[pos + tetri->coord[i] * (size + 1) + tetri->coord[i + 1]] == '\n')
+			return;
+		i += 2;
+	}
+	i = 0;
+	if ((pos + tetri->coord[6] * (size + 1) + tetri->coord[7]) < (size * (size + 1)) - 1)
+	{
+		if (map[pos] != tetri->name)
+			put_tetri(tetri, tmp, size, pos);
+		while (tmp[i])
+		{
+			if (tmp[i] == tetri->name)
+			{
+				ft_putstr(color);
+				if (map[i] != '.' && map[i] != tetri->name)
+					ft_putchar('#');
+				else
+					ft_putchar(tmp[i]);
+				ft_putstr(KNRM);
+			}
+			else
+				ft_putchar(tmp[i]);
+			i++;
+		}
+	}
+	//ft_putchar('\n');
+	usleep(600000);
+	while (size > 0)
+	{
+		ft_putstr("\033[2J");
+		size--;
+	}
+	ft_strdel(&tmp);
+}
+
+void	print_solution(char *map)
+{
+	ft_putstr("\033[5;32m");
+	ft_putstr(map);
+	ft_putstr(KNRM);
+	sleep(2);
 }
