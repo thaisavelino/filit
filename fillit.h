@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 19:13:34 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 19:38:23 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ typedef struct	s_tetri
 }				t_tetri;
 
 /*
+** MAIN
+*/
+int		solve_tetri(t_tetri *list, char *map, int tetri_nbr);
+int		backtrack(t_tetri *ptr, char *map, int map_len, int i);
+int		conflict(t_tetri *tetri, char *map, int map_len, int pos);
+void	put_tetri(t_tetri *tetri, char *map, int map_len, int pos);
+/*
 ** PARSING
 */
 int		set_list(char *file, t_tetri **list);
@@ -39,18 +46,11 @@ void	tetri_push(t_tetri **alist, t_tetri *list);
 t_tetri	*new_tetri(int *coord, int tetri_nbr);
 void	tetri_del(t_tetri **alst);
 int		*reset_tetri_position(int *coord);
-void	set_tetri_size(t_tetri *tetri);
 char	*create_map(char *map, int size);
 /*
 ** TESTING
 */
 void	ts_print_tetri_map(char *buff);
 void	ts_print_tetri(t_tetri *tetri, int map_len);
-/*
-** MAIN
-*/
-int		solve_tetri(t_tetri *list, char *map, int tetri_nbr);
-int		backtrack(t_tetri *ptr, char *map, int map_len, int i);
-int		conflict(t_tetri *tetri, char *map, int map_len, int pos);
-void	put_tetri(t_tetri *tetri, char *map, int map_len, int pos);
+
 #endif
