@@ -29,7 +29,7 @@ $(NAME)	:	$(OBJ)
 clean	:
 			@make clean -C libft
 			rm -f $(OBJ)
-			rm output_tests.txt
+			@rm -f output_tests.txt
 
 fclean	:	clean
 			@-rm libft/libft.a
