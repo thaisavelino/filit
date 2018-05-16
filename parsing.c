@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 14:04:23 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 19:28:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,43 @@
 #include <fcntl.h>
 
 /*
-** Stock each tetris coordinates in list from file
-** Returns a negative value if an error is encountered
+** Stock each tetri coordinates in list from file
+** Returns the number of tetri read if no error was encountered, 0 otherwise
 */
-int			set_list_if_valid_input(char *file, t_tetri **list)
+int			set_list(char *file, t_tetri **list)
 {
-	t_tetri		*tetri;
-	char		buffer[BUFF_SIZE];
-	int			count_tetri;
-	int			read_size;
-	int			fd;
+	t_tetri	*tetri;
+	char	buffer[BUFF_SIZE];
+	int		tetri_nbr;
+	int		read_size;
+	int		fd;
 
-	count_tetri = 0;
+	tetri = NULL;
+	tetri_nbr = 0;
 	read_size = 0;
 	if ((fd = open(file, O_RDONLY)) > 0)
 	{
 		while ((read_size = read_file_to_buffer(fd, buffer, read_size)))
 		{
-			if ((tetri = get_tetri_if_valid(buffer)) && count_tetri < 26)
-			{
-				tetri->name = 'A' + count_tetri++;
+			if (read_size < 0)
+				break ;
+			if ((tetri = get_tetri(buffer, tetri_nbr++)) && tetri_nbr < 26)
 				tetri_push(list, tetri);
-			}
 			else
-			{
-				if (count_tetri < 26)
-					free(tetri);
-				return (0);
-			}
+				break ;
 		}
 		close(fd);
 	}
-	if (fd < 0 || read_size < 0)
+	if (fd < 0 || read_size < 0 || !tetri)
 		return (0);
-	return (count_tetri);
+	return (tetri_nbr);
 }
 
 /*
 ** Returns a newly created tetri containing it's blocks coordinates
 ** Returns NULL if an error is encountered
 */
-t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
+t_tetri		*get_tetri(char buffer[BUFF_SIZE], int tetri_nbr)
 {
 	int		i;
 	int		count_junctions;
@@ -72,7 +68,7 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 			return (NULL);
 		else if ((i + 1) % 5 == 0 && buffer[i] != '\n')
 			return (NULL);
-		else if (buffer[i] == '#')
+		else if (buffer[i] == '#' && count_blocks < 4)
 		{
 			coord[count_blocks * 2] = i / 5;
 			coord[(count_blocks++ * 2) + 1] = i % 5;
@@ -81,14 +77,14 @@ t_tetri		*get_tetri_if_valid(char buffer[BUFF_SIZE])
 		i++;
 	}
 	if (count_blocks == 4 && (count_junctions == 6 || count_junctions == 8))
-		return (new_tetri(coord));
+		return (new_tetri(coord, tetri_nbr));
 	return (NULL);
 }
 
 /*
 ** Returns the number of junctions for a given block
 */
-int		get_junctions(char *buffer, int pos)
+int			get_junctions(char *buffer, int pos)
 {
 	int		count_junctions;
 
@@ -108,7 +104,7 @@ int		get_junctions(char *buffer, int pos)
 ** Read next tetri from file to buffer
 ** Returns number of bytes read or a negative value in case of error
 */
-int		read_file_to_buffer(int fd, char buffer[BUFF_SIZE], int prev_bytes)
+int			read_file_to_buffer(int fd, char buffer[BUFF_SIZE], int prev_bytes)
 {
 	int		bytes;
 	char	tmp;
