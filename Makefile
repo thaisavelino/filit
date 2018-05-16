@@ -2,16 +2,21 @@ NAME	=	fillit
 
 CC		=	gcc
 
-DIR		=	rendu
+SDIR		=	./srcs
+
+IDIR		=	./srcs
+
+ODIR		=	./srcs
 
 SRC		= main.c \
 	parsing.c \
-	tools.c \
-	testing.c
+	tools.c
 
 HEADER	= fillit.h
 
-OBJ		= $(SRC:.c=.o)
+_OBJ	=	$(SRC:.c=.o)
+
+OBJ		=	$(patsubst %, $(ODIR)/%, $(_OBJ))
 
 CFLAGS	=	-Wall -Wextra -Werror
 
@@ -20,19 +25,18 @@ LDFLAGS = -L libft -lft
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJ)
-			@make -C libft
+			@$(MAKE) -C libft
 			$(CC) -o $(NAME) $(OBJ) -L libft -lft
 
 %.o		:	%.c fillit.h
 			${CC} ${CFLAGS} -I ${HEADER} -c -o $@ $<
 
 clean	:
-			@make clean -C libft
+			@$(MAKE) clean -C libft
 			rm -f $(OBJ)
-			@rm -f output_tests.txt
 
 fclean	:	clean
-			@-rm libft/libft.a
+			@$(MAKE) fclean -C libft
 			@rm -f $(NAME)
 
 re		:	fclean all

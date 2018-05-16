@@ -6,14 +6,14 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 19:38:23 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 20:37:30 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
 
-#include "libft/libft.h"
+#include "../libft/libft.h"
 
 #define BUFF_SIZE 21
 
