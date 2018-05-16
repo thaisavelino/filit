@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/15 20:59:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 13:55:30 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	ts_print_tetri(t_tetri *tetri, int map_len);
 /*
 ** MAIN
 */
+int		solve_tetri(t_tetri *list, char *map, int tetri_nbr);
 int		solver(t_tetri *ptr, int map_len, char *map, int i);
 int		conflict(t_tetri *tetri, int map_len, char *map, int pos);
 void	put_tetri(t_tetri *tetri, int map_len, char *map, int pos);
-int		get_min_map(int tetri_nbr);
 #endif

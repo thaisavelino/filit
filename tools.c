@@ -6,13 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 20:53:53 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/15 21:30:03 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/16 13:45:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include <stdlib.h>
-
 
 void	tetri_push(t_tetri **alist, t_tetri *list)
 {
