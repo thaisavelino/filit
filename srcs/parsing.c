@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 20:23:11 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/17 21:19:46 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int			set_list(char *file, t_tetri **list)
 	read_size = 0;
 	if ((fd = open(file, O_RDONLY)) > 0)
 	{
-		while ((read_size = read_file_to_buffer(fd, buffer, read_size)))
+		while ((read_size = read_file(fd, buffer, read_size)))
 		{
 			if (read_size < 0)
 				break ;
@@ -108,7 +108,7 @@ int			get_junctions(char *buffer, int pos)
 ** Returns number of bytes read or a negative value in case of error
 */
 
-int			read_file_to_buffer(int fd, char buffer[BUFF_SIZE], int prev_bytes)
+int			read_file(int fd, char buffer[BUFF_SIZE], int prev_bytes)
 {
 	int		bytes;
 	char	tmp;
