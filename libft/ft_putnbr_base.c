@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 17:51:15 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/04/28 02:02:51 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/17 21:23:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 ** Check if base string is correct, return 1 if so
 */
+
 static int		is_valid_base(char *base)
 {
 	size_t	i;
@@ -28,6 +29,7 @@ static int		is_valid_base(char *base)
 /*
 ** Writes n expressed in *base form to stdout, returns 1 on error 0 otherwise
 */
+
 int				ft_putnbr_base(int n, char *base)
 {
 	size_t tmp;
