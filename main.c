@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 22:40:37 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/17 14:32:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		backtrack(t_tetri *ptr, char *map, int map_len, int i)
 	ft_putstr("\033[2J");//////////////////////////////////////////////////////
 	if (ptr != NULL)
 	{
-		while (i < ((map_len + 1) * map_len))
+		while (((i + ptr->coord[7]) + 1 < (map_len + 1) * map_len))
 		{
 			if (map[i + ptr->coord[1]] == '.')
 			{
@@ -86,15 +86,22 @@ int		backtrack(t_tetri *ptr, char *map, int map_len, int i)
 				}
 					print_tetri_color(map, ptr, map_len, i, KRED);/////////////
 			}
+			else
+			{
+				print_tetri_color(map, ptr, map_len, i, KRED);/////////////////
+			}
 			i++;
 		}
-		if (i >= ((map_len + 1) * map_len))
+		if ((ptr->coord[7] + i) + 1 >= ((map_len + 1) * map_len))
 		{
+			//ft_putstr("LOL");
+			print_tetri_color(map, ptr, map_len, i, KRED);/////////////////////
 			i = 0;
 			return (0);
 		}
 		while (backtrack(ptr->next, map, map_len, 0) == 0)
 		{
+			print_tetri_color(map, ptr, map_len, i, KRED);/////////////////////
 			put_tetri(ptr, map, map_len, i);
 			return (backtrack(ptr, map, map_len, i + 1));
 		}

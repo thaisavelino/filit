@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/16 22:40:12 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/17 14:07:09 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ char	*create_map(char *map, int size);
 /*
 ** TESTING
 */
-void	ts_print_tetri_map(char *buff);
-void	ts_print_tetri(t_tetri *tetri, int map_len);
 void	print_tetri_color(char *map, t_tetri *tetri, int size, int pos, char *color);
 void	print_solution(char *map);
+void	put_tetri_tmp(t_tetri *tetri, char *map, int map_len, int pos);
 
 #endif
