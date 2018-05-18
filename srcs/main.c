@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:35:00 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/17 14:32:01 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/18 17:56:28 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,22 @@ int		main(int ac, char **av)
 	t_tetri	*list;
 	char	*map;
 	int		tetri_nbr;
+	int		display;
 
 	list = NULL;
 	map = NULL;
 	tetri_nbr = 0;
-	if (ac == 2)
+	display = 0;
+	if (ac == 2 || (ac == 3 && !ft_strcmp(av[1], "-d")))
 	{
+		if (ac == 3)
+		{
+			av++;
+			display++;
+		}
 		if ((tetri_nbr = set_list(av[1], &list)))
 		{
-			if (!(solve_tetri(list, map, tetri_nbr)))
+			if (!(solve_tetri(list, map, tetri_nbr, display)))
 				ft_putstr("error\n");
 		}
 		else
@@ -33,7 +40,7 @@ int		main(int ac, char **av)
 		tetri_del(&list);
 	}
 	else
-		ft_putstr("usage: ./fillit [FILE]\n");
+		ft_putstr("usage: ./fillit [-d] FILE\n");
 	return (0);
 }
 
@@ -41,7 +48,7 @@ int		main(int ac, char **av)
 ** Find minimal map size for given tetri list
 */
 
-int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
+int		solve_tetri(t_tetri *list, char *map, int tetri_nbr, int display)
 {
 	int map_len;
 
@@ -50,7 +57,7 @@ int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 		map_len++;
 	if ((map = create_map(map, map_len)))
 	{
-		while (!backtrack(list, map, map_len++, 0))
+		while (!backtrack(list, map, map_len++, 0, display))
 		{
 			if (!(map = create_map(map, map_len)))
 				break ;
@@ -58,8 +65,10 @@ int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 	}
 	if (!map)
 		return (0);
-	//ft_putstr(map);//////////////////////////////////////////////////////////
-	print_solution(map);///////////////////////////////////////////////////////
+	if (!display)
+		ft_putstr(map);
+	else
+		print_solution(map);
 	ft_strdel(&map);
 	return (1);
 }
@@ -70,9 +79,10 @@ int		solve_tetri(t_tetri *list, char *map, int tetri_nbr)
 ** Returns 0 otherwise
 */
 
-int		backtrack(t_tetri *ptr, char *map, int map_len, int i)
+int		backtrack(t_tetri *ptr, char *map, int map_len, int i, int display)
 {
-	ft_putstr("\033[2J");//////////////////////////////////////////////////////
+	if (display)
+		ft_putstr(KCLR);
 	if (ptr != NULL)
 	{
 		while (((i + ptr->coord[7]) + 1 < (map_len + 1) * map_len))
@@ -81,29 +91,30 @@ int		backtrack(t_tetri *ptr, char *map, int map_len, int i)
 			{
 				if (!conflict(ptr, map, map_len, i))
 				{
-					print_tetri_color(map, ptr, map_len, i, KGRN);/////////////
+					if (display)
+						print_tetri_color(map, ptr, map_len, i, KGRN);
 					break ;
 				}
-					print_tetri_color(map, ptr, map_len, i, KRED);/////////////
+				if (display)
+					print_tetri_color(map, ptr, map_len, i, KRED);
 			}
-			else
-			{
-				print_tetri_color(map, ptr, map_len, i, KRED);/////////////////
-			}
+			else if (display)
+				print_tetri_color(map, ptr, map_len, i, KRED);
 			i++;
 		}
 		if ((ptr->coord[7] + i) + 1 >= ((map_len + 1) * map_len))
 		{
-			//ft_putstr("LOL");
-			print_tetri_color(map, ptr, map_len, i, KRED);/////////////////////
+			if (display)
+				print_tetri_color(map, ptr, map_len, i, KRED);
 			i = 0;
 			return (0);
 		}
-		while (backtrack(ptr->next, map, map_len, 0) == 0)
+		while (backtrack(ptr->next, map, map_len, 0, display) == 0)
 		{
-			print_tetri_color(map, ptr, map_len, i, KRED);/////////////////////
+			if (display)
+				print_tetri_color(map, ptr, map_len, i, KRED);
 			put_tetri(ptr, map, map_len, i);
-			return (backtrack(ptr, map, map_len, i + 1));
+			return (backtrack(ptr, map, map_len, i + 1, display));
 		}
 	}
 	return (1);

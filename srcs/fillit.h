@@ -6,14 +6,14 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/28 20:20:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/17 14:07:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/18 18:05:49 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
 
-#include "libft/libft.h"
+#include "../libft/libft.h"
 
 #define BUFF_SIZE 21
 #define KNRM  "\x1B[0m"
@@ -24,6 +24,11 @@
 #define KMAG  "\x1B[35m"
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
+#define KCLR  "\x1B[2J"
+
+#define KGRN_BLINK  "\x1B[5;32m"
+#define SLP_CNFLCT  100000
+#define SLP_VALID   300000
 
 typedef struct	s_tetri
 {
@@ -36,8 +41,8 @@ typedef struct	s_tetri
 /*
 ** MAIN
 */
-int		solve_tetri(t_tetri *list, char *map, int tetri_nbr);
-int		backtrack(t_tetri *ptr, char *map, int map_len, int i);
+int		solve_tetri(t_tetri *list, char *map, int tetri_nbr, int display);
+int		backtrack(t_tetri *ptr, char *map, int map_len, int i, int display);
 int		conflict(t_tetri *tetri, char *map, int map_len, int pos);
 void	put_tetri(t_tetri *tetri, char *map, int map_len, int pos);
 /*
@@ -56,7 +61,7 @@ void	tetri_del(t_tetri **alst);
 int		*reset_tetri_position(int *coord);
 char	*create_map(char *map, int size);
 /*
-** TESTING
+** DISPLAY
 */
 void	print_tetri_color(char *map, t_tetri *tetri, int size, int pos, char *color);
 void	print_solution(char *map);

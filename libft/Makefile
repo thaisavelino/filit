@@ -78,16 +78,19 @@ CFLAGS	=	-Wall -Wextra -Werror
 HEADERS	=	libft.h
 
 all		:	$(NAME)
+			@echo > /dev/null
 
 $(NAME)	:	$(OBJ)
 			@ar rc $(NAME) $(OBJ)
 			@ranlib $(NAME)
 			@echo "[96mLibft [92mCompiled[0m"
 
+%.o		:	%.c $(HEADERS)
+			@$(CC) $(CFLAGS) -I $(HEADERS) -c -o $@ $<
+
 clean	:
-			@echo "Cleaning the [96mlibft[0m files"
+			@echo "Cleaning the [96mLibft[0m files..."
 			@rm -f $(OBJ)
-			@echo "[92mDone[0m"
 
 fclean	:	clean
 			@rm -f $(NAME)
