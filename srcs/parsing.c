@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/17 21:19:46 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/18 15:04:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ int			set_list(char *file, t_tetri **list)
 		{
 			if (read_size < 0)
 				break ;
-			if ((tetri = get_tetri(buffer, tetri_nbr++)) && tetri_nbr < 26)
+			if ((tetri = get_tetri(buffer, tetri_nbr++)) && tetri_nbr < 27)
 				tetri_push(list, tetri);
 			else
 				break ;
 		}
 		close(fd);
 	}
-	if (fd < 0 || read_size < 0 || !tetri)
+	if (fd < 0 || read_size < 0 || !tetri || tetri >= 27)
 		return (0);
 	return (tetri_nbr);
 }
