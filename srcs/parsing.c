@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/01 18:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/05/18 15:04:04 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/05/18 17:28:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			set_list(char *file, t_tetri **list)
 		}
 		close(fd);
 	}
-	if (fd < 0 || read_size < 0 || !tetri || tetri >= 27)
+	if (fd < 0 || read_size < 0 || !tetri || tetri_nbr >= 27)
 		return (0);
 	return (tetri_nbr);
 }
