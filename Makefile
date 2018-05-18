@@ -12,7 +12,8 @@ LDIR		=	./libft
 
 SRC		= main.c \
 	parsing.c \
-	tools.c
+	tools.c \
+	display.c
 
 HEADERS	=	$(IDIR)/fillit.h
 
