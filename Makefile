@@ -8,35 +8,41 @@ IDIR		=	./srcs
 
 ODIR		=	./srcs
 
+LDIR		=	./libft
+
 SRC		= main.c \
 	parsing.c \
 	tools.c
 
-HEADER	= fillit.h
+HEADERS	=	$(IDIR)/fillit.h
 
-_OBJ	=	$(SRC:.c=.o)
+OBJ		=	$(SRC:.c=.o)
 
-OBJ		=	$(patsubst %, $(ODIR)/%, $(_OBJ))
+_OBJ	=	$(patsubst %, $(ODIR)/%, $(OBJ))
 
 CFLAGS	=	-Wall -Wextra -Werror
 
-LDFLAGS = -L libft -lft
+LDFLAGS	=	-L libft -lft
 
 all		:	$(NAME)
 
-$(NAME)	:	$(OBJ)
+$(NAME)	:	$(_OBJ)
+			@echo "Compiling..."
 			@$(MAKE) -C libft
-			$(CC) -o $(NAME) $(OBJ) -L libft -lft
+			@$(CC) -o $(NAME) $(_OBJ) -L libft -lft
+			@echo "[96mFillit [92mCompiled[0m"
 
-%.o		:	%.c fillit.h
-			${CC} ${CFLAGS} -I ${HEADER} -c -o $@ $<
+%.o		:	%.c $(HEADERS)
+			@$(CC) $(CFLAGS) -I $(HEADERS) -c -o $@ $<
 
 clean	:
 			@$(MAKE) clean -C libft
-			rm -f $(OBJ)
+			@echo "Cleaning the [96mFillit [0mfiles..."
+			@rm -f $(_OBJ)
+			@echo "[92mDone[0m"
 
 fclean	:	clean
-			@$(MAKE) fclean -C libft
+			@rm -f $(LDIR)/libft.a
 			@rm -f $(NAME)
 
 re		:	fclean all
